@@ -110,6 +110,8 @@
   .role-title{font-family:'Manrope', sans-serif; font-weight:700; font-size:18px; color:var(--navy);}
   .role-sub{font-size:13.5px; color:var(--muted);}
   .role-date{font-size:12.5px; color:var(--dim); font-family:'IBM Plex Mono', monospace;}
+  .databricks-note{margin-top:32px; padding:20px 22px; border-left:2px solid var(--accent); background:var(--accent-soft); border-radius:0 4px 4px 0; font-size:13.5px; color:var(--text); line-height:1.6;}
+  .databricks-label{font-family:'Manrope', sans-serif; font-weight:700; font-size:13px; color:var(--accent); margin-right:8px;}
 
   .phase{display:grid; grid-template-columns:260px 1fr; gap:40px; padding:36px 0; border-top:1px solid var(--border);}
   @media(max-width:760px){.phase{grid-template-columns:1fr; gap:16px;}}
@@ -309,7 +311,7 @@
         <span class="phase-item">Cloud operations</span>
         <span class="phase-item">Cloud governance</span>
         <span class="phase-item">Cost &amp; budget alerts</span>
-        <span class="phase-item">Operational automation (~40% reduction)</span>
+        <span class="phase-item">Reduced manual monitoring effort by ~40%</span>
       </div>
     </div>
 
@@ -329,6 +331,11 @@
         <span class="phase-item">SLA/SLO support</span>
         <span class="phase-item">Stakeholder communication</span>
       </div>
+    </div>
+
+    <div class="databricks-note">
+      <span class="databricks-label">Databricks</span>
+      Debugged production data pipelines by writing SQL queries in Databricks notebooks — validating transformed data layer by layer, tracing issues back to upstream sources, and resolving incidents in collaboration with source and business teams.
     </div>
   </section>
 </div>
@@ -377,7 +384,7 @@
           <li>Monitoring Automation</li>
           <li>Cost &amp; Budget Alerts</li>
           <li>Operational Automation</li>
-          <li>Manual Effort Reduction (~40%)</li>
+          <li>Reduced manual monitoring effort by ~40%</li>
         </ul>
       </div>
       <div class="devops-col">
@@ -390,7 +397,7 @@
         </ul>
       </div>
     </div>
-    <div class="expanding-note"><b>Currently expanding —</b> Kubernetes, Containerisation, AWS, GCP.</div>
+    <div class="expanding-note"><b>Currently expanding —</b> Kubernetes &amp; Containerisation, AWS, GCP.</div>
   </div>
 </section>
 
