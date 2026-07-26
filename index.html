@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maha Lakshmi Dareddy — SRE · DevOps · Cloud Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F7F6F2;
+    --bg-alt: #EEF1F5;
+    --border: #D9DEE7;
+    --navy: #16181D;
+    --text: #16181D;
+    --muted: #4A4F58;
+    --dim: #8A8F98;
+    --accent: #2457D6;
+    --accent-2: #4B7BEC;
+    --accent-soft: #EAF0FB;
+    --slate: #55606E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Inter', sans-serif;
+    font-size:16px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  .head{font-family:'Manrope', sans-serif;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 32px;}
+  .label{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.09em; text-transform:uppercase; color:var(--accent); font-weight:600;}
+
+  /* header */
+  header{border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(255,255,255,0.92); backdrop-filter:blur(8px); z-index:30;}
+  header .wrap{display:flex; justify-content:space-between; align-items:center; padding:16px 32px;}
+  .brand{font-family:'Manrope', sans-serif; font-weight:700; font-size:15px; letter-spacing:-0.01em;}
+  nav{display:flex; gap:26px;}
+  nav a{font-size:13px; font-weight:500; color:var(--muted); transition:color .15s;}
+  nav a:hover{color:var(--navy);}
+
+  /* hero */
+  .hero{padding:64px 0 60px;}
+  .hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:60px; align-items:center;}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr; gap:44px;}}
+
+  .hero-name{font-family:'Manrope', sans-serif; font-weight:800; font-size:38px; letter-spacing:-0.02em; color:var(--navy); margin-bottom:10px; line-height:1.1;}
+  .hero-title{font-family:'IBM Plex Mono', monospace; font-size:13px; font-weight:600; letter-spacing:0.08em; color:var(--accent); margin-bottom:26px;}
+  .hero-statement{font-family:'Manrope', sans-serif; font-weight:700; font-size:25px; color:var(--text); line-height:1.35; margin-bottom:16px; max-width:480px;}
+  .hero-desc{font-size:15px; color:var(--muted); max-width:480px; margin-bottom:26px;}
+  .hero-meta{font-size:13.5px; color:var(--slate); margin-bottom:32px; line-height:1.9;}
+  .hero-meta b{color:var(--navy); font-weight:600;}
+  .hero-meta .sep{color:var(--dim); margin:0 8px;}
+
+  .hero-actions{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:22px;}
+  .btn{font-size:13.5px; font-weight:600; padding:12px 22px; border-radius:4px; transition:all .15s;}
+  .btn.primary{background:var(--navy); color:#fff;}
+  .btn.primary:hover{background:var(--accent);}
+  .btn.outline{border:1px solid var(--border); color:var(--navy);}
+  .btn.outline:hover{border-color:var(--navy);}
+  .hero-links{display:flex; gap:18px; font-size:13px; color:var(--slate);}
+  .hero-links a:hover{color:var(--accent);}
+  .hero-links .sep{color:var(--dim);}
+
+  /* flow visual */
+  .flow-visual{
+    border-left:1px solid var(--border); padding-left:36px; position:relative;
+  }
+  @media(max-width:860px){.flow-visual{border-left:none; padding-left:0; border-top:1px solid var(--border); padding-top:32px;}}
+  .flow-step{position:relative; padding-left:26px; padding-bottom:34px;}
+  .flow-step:last-child{padding-bottom:0;}
+  .flow-step::before{
+    content:""; position:absolute; left:0; top:4px; width:9px; height:9px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--accent);
+  }
+  .flow-step.end::before{background:var(--accent);}
+  .flow-step::after{
+    content:""; position:absolute; left:4px; top:16px; width:1px; height:calc(100% - 8px); background:var(--border);
+  }
+  .flow-step:last-child::after{display:none;}
+  .flow-label{font-family:'IBM Plex Mono', monospace; font-size:12.5px; font-weight:600; letter-spacing:0.04em; color:var(--navy);}
+  .flow-sub{font-size:12px; color:var(--dim); margin-top:3px;}
+
+  /* sections */
+  section{padding:64px 0;}
+  section.alt{background:var(--bg-alt); border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+  section.alt > .wrap{padding-top:64px; padding-bottom:64px;}
+  h2{font-family:'Manrope', sans-serif; font-weight:700; font-size:26px; letter-spacing:-0.01em; color:var(--navy); margin-bottom:10px;}
+  .section-intro{font-size:14.5px; color:var(--muted); max-width:540px; margin-bottom:40px;}
+
+  /* about */
+  .about-head{font-family:'Manrope', sans-serif; font-weight:700; font-size:24px; color:var(--navy); line-height:1.4; max-width:560px; margin-bottom:26px;}
+  .about-body{max-width:640px; margin-bottom:44px;}
+  .about-body p{font-size:15px; color:var(--text); margin-bottom:14px;}
+  .progression{display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid var(--border);}
+  @media(max-width:760px){.progression{grid-template-columns:1fr 1fr;}}
+  .prog-item{padding:24px 20px 0 0; border-right:1px solid var(--border);}
+  .prog-item:last-child{border-right:none;}
+  @media(max-width:760px){.prog-item:nth-child(2n){border-right:none;}}
+  .prog-num{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--dim); margin-bottom:10px;}
+  .prog-title{font-family:'Manrope', sans-serif; font-weight:700; font-size:14.5px; color:var(--navy); margin-bottom:6px;}
+  .prog-desc{font-size:12.5px; color:var(--muted); line-height:1.5;}
+
+  /* experience */
+  .role-strip{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; padding-bottom:24px; margin-bottom:40px; border-bottom:1px solid var(--border);}
+  .role-title{font-family:'Manrope', sans-serif; font-weight:700; font-size:18px; color:var(--navy);}
+  .role-sub{font-size:13.5px; color:var(--muted);}
+  .role-date{font-size:12.5px; color:var(--dim); font-family:'IBM Plex Mono', monospace;}
+
+  .phase{display:grid; grid-template-columns:260px 1fr; gap:40px; padding:36px 0; border-top:1px solid var(--border);}
+  @media(max-width:760px){.phase{grid-template-columns:1fr; gap:16px;}}
+  .phase-left .phase-num{font-family:'Manrope', sans-serif; font-weight:800; font-size:40px; color:var(--border); line-height:1; margin-bottom:10px;}
+  .phase.major .phase-left .phase-num{color:var(--accent-soft); -webkit-text-stroke:1.5px var(--accent);}
+  .phase-dur{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-bottom:8px;}
+  .phase-title{font-family:'Manrope', sans-serif; font-weight:700; font-size:19px; color:var(--navy); margin-bottom:8px;}
+  .phase.major .phase-title{font-size:22px;}
+  .phase-focus{font-size:13.5px; color:var(--muted); max-width:220px;}
+  .phase-items{display:flex; flex-wrap:wrap; gap:10px 12px; align-content:flex-start;}
+  .phase-item{
+    font-size:13px; color:var(--text); border:1px solid var(--border); padding:8px 14px; border-radius:4px; background:var(--bg);
+  }
+  .phase.major .phase-item{border-color:#C9D8F5; background:var(--accent-soft); color:var(--navy); font-weight:500;}
+
+  /* devops grid */
+  .devops-grid{display:grid; grid-template-columns:repeat(5, 1fr); gap:1px; background:var(--border); border:1px solid var(--border);}
+  @media(max-width:960px){.devops-grid{grid-template-columns:1fr 1fr 1fr;}}
+  @media(max-width:760px){.devops-grid{grid-template-columns:1fr 1fr;}}
+  .devops-col{background:var(--bg); padding:24px 22px;}
+  .devops-col-title{font-family:'Manrope', sans-serif; font-weight:700; font-size:14.5px; color:var(--navy); margin-bottom:14px;}
+  .devops-list li{font-size:13px; color:var(--muted); margin-bottom:8px; line-height:1.5;}
+  .expanding-note{margin-top:24px; font-size:13.5px; color:var(--slate);}
+  .expanding-note b{color:var(--accent); font-weight:600;}
+
+  /* projects */
+  .project.featured{padding:36px; background:var(--accent-soft); border-radius:6px; margin-bottom:24px;}
+  .project{padding-bottom:32px; margin-bottom:32px; border-bottom:1px solid var(--border);}
+  .project:last-child{border-bottom:none; margin-bottom:0;}
+  .project-top{display:flex; gap:20px; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; justify-content:space-between;}
+  .project-num{font-family:'Manrope', sans-serif; font-weight:800; font-size:15px; color:var(--accent);}
+  .project-title{font-family:'Manrope', sans-serif; font-weight:700; font-size:21px; color:var(--navy); max-width:560px; line-height:1.3;}
+  .project.featured .project-title{font-size:24px;}
+  .project-link{font-size:12.5px; font-weight:600; color:var(--accent); border-bottom:1px solid var(--accent); padding-bottom:1px; white-space:nowrap;}
+  .project-desc{font-size:14px; color:var(--muted); max-width:600px; margin-bottom:16px;}
+  .project-meta{display:grid; grid-template-columns:110px 1fr; gap:8px 16px; font-size:13px; margin-bottom:16px; max-width:640px;}
+  .project-meta .k{color:var(--dim); text-transform:uppercase; font-size:10.5px; letter-spacing:0.05em; padding-top:2px; font-weight:600;}
+  .project-meta .v{color:var(--text);}
+  .stack-line{font-size:12.5px; color:var(--slate); margin-bottom:0;}
+  .stack-line b{color:var(--navy); font-weight:600;}
+  .flow-inline{margin-top:16px; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--navy); letter-spacing:0.02em; display:flex; gap:8px; flex-wrap:wrap;}
+  .flow-inline b{color:var(--accent);}
+  .project.small .project-title{font-size:17px;}
+  .project.placeholder-project{border:1px dashed var(--border); border-radius:6px; padding:22px 24px; margin-bottom:16px; background:transparent;}
+  .placeholder-title{color:var(--dim); font-weight:600; font-size:15px !important;}
+
+  /* thesis */
+  .thesis-card{border:1px solid var(--border); border-radius:6px; padding:32px 34px;}
+  .thesis-title{font-family:'Manrope', sans-serif; font-weight:700; font-size:20px; color:var(--navy); margin-bottom:18px; max-width:600px; line-height:1.3;}
+  .thesis-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px 36px;}
+  @media(max-width:640px){.thesis-grid{grid-template-columns:1fr;}}
+  .thesis-block .k{font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--dim); margin-bottom:7px; font-weight:600;}
+  .thesis-block .v{font-size:13.5px; color:var(--text);}
+
+  /* skills */
+  .skills-grid{display:grid; grid-template-columns:1fr 1fr; gap:36px 48px;}
+  @media(max-width:640px){.skills-grid{grid-template-columns:1fr;}}
+  .skill-group-title{font-family:'Manrope', sans-serif; font-weight:700; font-size:14px; color:var(--navy); margin-bottom:4px;}
+  .skill-group-sub{font-size:10.5px; color:var(--dim); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px; font-weight:600;}
+  .skill-group.learning .skill-group-sub{color:var(--accent);}
+  .skill-list{font-size:13.5px; color:var(--muted); line-height:1.9;}
+
+  /* contact */
+  footer{padding:60px 0 56px; border-top:1px solid var(--border);}
+  .contact-grid{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px;}
+  .contact-head{font-family:'Manrope', sans-serif; font-weight:700; font-size:24px; color:var(--navy); margin-bottom:8px;}
+  .contact-sub{font-size:14px; color:var(--muted); max-width:420px;}
+  .contact-links{display:flex; flex-direction:column; gap:6px; text-align:right;}
+  .contact-links a{font-size:13.5px; color:var(--slate);}
+  .contact-links a:hover{color:var(--accent);}
+  .foot-bottom{margin-top:36px; padding-top:20px; border-top:1px solid var(--border); font-size:12px; color:var(--dim);}
+
+  @media(max-width:640px){
+    .hero-name{font-size:29px;}
+    nav{display:none;}
+    .contact-grid{flex-direction:column; align-items:flex-start;}
+    .contact-links{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">Maha Lakshmi Dareddy</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#core-experience">Core Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-name">Maha Lakshmi Dareddy</div>
+        <div class="hero-title">SRE&nbsp;&nbsp;·&nbsp;&nbsp;DEVOPS&nbsp;&nbsp;·&nbsp;&nbsp;CLOUD ENGINEERING</div>
+        <div class="hero-statement">I build, automate and operate reliable cloud systems.</div>
+        <p class="hero-desc">3+ years of production experience across Azure reliability, CI/CD, infrastructure automation and cloud engineering.</p>
+        <div class="hero-meta">
+          <b>Dublin, Ireland</b><span class="sep">·</span><b>3+ years</b> production experience<span class="sep">·</span>Open to DevOps, Cloud &amp; Platform Engineering roles
+        </div>
+        <div class="hero-actions">
+          <a class="btn primary" href="#experience">View Experience</a>
+          <a class="btn outline" href="#projects">View Projects</a>
+        </div>
+        <div class="hero-links">
+          <a href="https://github.com/Lakshmi8134" target="_blank" rel="noopener">GitHub</a>
+          <span class="sep">·</span>
+          <a href="https://www.linkedin.com/in/mahalakshmi-dareddy-8a3887190" target="_blank" rel="noopener">LinkedIn</a>
+          <span class="sep">·</span>
+          <a href="#" title="Link to hosted resume PDF">Resume</a>
+        </div>
+      </div>
+
+      <div class="flow-visual">
+        <div class="flow-step"><div class="flow-label">PRODUCTION</div><div class="flow-sub">Live Azure systems, real users</div></div>
+        <div class="flow-step"><div class="flow-label">OBSERVE</div><div class="flow-sub">Monitoring, alerting, incident response</div></div>
+        <div class="flow-step"><div class="flow-label">AUTOMATE</div><div class="flow-sub">CI/CD, Terraform, infrastructure as code</div></div>
+        <div class="flow-step"><div class="flow-label">DEPLOY</div><div class="flow-sub">Release engineering, cloud operations</div></div>
+        <div class="flow-step end"><div class="flow-label" style="color:var(--accent);">RELIABLE SYSTEMS</div><div class="flow-sub">The outcome, repeated</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section id="about" class="alt">
+  <div class="wrap">
+    <span class="label">About</span>
+    <div class="about-head" style="margin-top:14px;">DevOps and cloud engineering, built on a foundation of production reliability.</div>
+    <div class="about-body">
+      <p>At Accenture, the majority of my work has been DevOps and Azure cloud engineering — building and maintaining CI/CD pipelines, provisioning infrastructure with Terraform, automating operational work, and owning cloud governance on an Azure-based platform.</p>
+      <p>That work is grounded in where I started: production reliability. On-call ownership, incident response, and root cause analysis across critical systems taught me how things actually break — which is exactly what makes the automation and infrastructure work effective rather than theoretical.</p>
+      <p>I completed an MSc in Computing Science, hold the AZ-900 (Microsoft Azure Fundamentals) certification, and I'm currently building toward Kubernetes, AWS, and GCP.</p>
+    </div>
+    <div class="progression">
+      <div class="prog-item"><div class="prog-num">01</div><div class="prog-title">DevOps / CI-CD</div><div class="prog-desc">Azure pipelines, deployment workflows.</div></div>
+      <div class="prog-item"><div class="prog-num">02</div><div class="prog-title">Infrastructure / Automation</div><div class="prog-desc">Terraform, IaC, operational automation.</div></div>
+      <div class="prog-item"><div class="prog-num">03</div><div class="prog-title">SRE / Production Reliability</div><div class="prog-desc">On-call, incidents, RCA, monitoring.</div></div>
+      <div class="prog-item"><div class="prog-num">04</div><div class="prog-title">Cloud-Native Engineering</div><div class="prog-desc">Kubernetes, AWS, GCP — in progress.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section id="experience">
+    <span class="label">Experience</span>
+    <h2 style="margin-top:14px;">3 years of production experience</h2>
+    <p class="section-intro">One continuous role at Accenture on an Azure-based production platform — DevOps and cloud engineering make up the majority of it, built on an SRE foundation.</p>
+
+    <div class="role-strip">
+      <div>
+        <div class="role-title">SRE &amp; DevOps Engineer</div>
+        <div class="role-sub">Accenture — Azure-based production platform</div>
+      </div>
+      <div class="role-date">Dec 2021 — Jan 2025</div>
+    </div>
+
+    <div class="phase major">
+      <div class="phase-left">
+        <div class="phase-num">01</div>
+        <div class="phase-dur">~2 YEARS</div>
+        <div class="phase-title">DevOps / Azure Cloud Engineering</div>
+        <div class="phase-focus">CI/CD, infrastructure automation, and cloud operations — the majority of my professional experience.</div>
+      </div>
+      <div class="phase-items">
+        <span class="phase-item">Azure CI/CD pipelines</span>
+        <span class="phase-item">Build &amp; deployment workflows</span>
+        <span class="phase-item">Release engineering</span>
+        <span class="phase-item">Deployment troubleshooting</span>
+        <span class="phase-item">Terraform</span>
+        <span class="phase-item">Infrastructure as Code</span>
+        <span class="phase-item">Azure infrastructure provisioning</span>
+        <span class="phase-item">Azure Function Applications</span>
+        <span class="phase-item">Cloud operations</span>
+        <span class="phase-item">Cloud governance</span>
+        <span class="phase-item">Cost &amp; budget alerts</span>
+        <span class="phase-item">Operational automation (~40% reduction)</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-left">
+        <div class="phase-num">02</div>
+        <div class="phase-dur">~1 YEAR</div>
+        <div class="phase-title">SRE / Production Reliability</div>
+        <div class="phase-focus">Production reliability, incident response, and operational stability.</div>
+      </div>
+      <div class="phase-items">
+        <span class="phase-item">24/7 on-call ownership</span>
+        <span class="phase-item">P1/P2 incident management</span>
+        <span class="phase-item">Production troubleshooting</span>
+        <span class="phase-item">Root cause analysis</span>
+        <span class="phase-item">Monitoring &amp; alerting</span>
+        <span class="phase-item">SLA/SLO support</span>
+        <span class="phase-item">Stakeholder communication</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section id="core-experience" class="alt">
+  <div class="wrap">
+    <span class="label">Core Experience</span>
+    <h2 style="margin-top:14px;">DevOps &amp; Cloud Engineering</h2>
+    <p class="section-intro">The core of my day-to-day work at Accenture.</p>
+    <div class="devops-grid">
+      <div class="devops-col">
+        <div class="devops-col-title">CI/CD</div>
+        <ul class="devops-list">
+          <li>Azure DevOps Pipelines</li>
+          <li>Build Pipelines</li>
+          <li>Deployment Workflows</li>
+          <li>Release Engineering</li>
+          <li>Deployment Troubleshooting</li>
+        </ul>
+      </div>
+      <div class="devops-col">
+        <div class="devops-col-title">Infrastructure</div>
+        <ul class="devops-list">
+          <li>Terraform</li>
+          <li>Infrastructure as Code</li>
+          <li>Azure Infrastructure Provisioning</li>
+          <li>Environment Configuration</li>
+        </ul>
+      </div>
+      <div class="devops-col">
+        <div class="devops-col-title">Cloud</div>
+        <ul class="devops-list">
+          <li>Microsoft Azure</li>
+          <li>Azure Functions</li>
+          <li>Azure Monitor</li>
+          <li>Application Insights</li>
+          <li>Log Analytics</li>
+          <li>Databricks</li>
+          <li>Microsoft Entra ID</li>
+          <li>Azure Key Vault</li>
+        </ul>
+      </div>
+      <div class="devops-col">
+        <div class="devops-col-title">Automation</div>
+        <ul class="devops-list">
+          <li>Monitoring Automation</li>
+          <li>Cost &amp; Budget Alerts</li>
+          <li>Operational Automation</li>
+          <li>Manual Effort Reduction (~40%)</li>
+        </ul>
+      </div>
+      <div class="devops-col">
+        <div class="devops-col-title">Governance &amp; Security</div>
+        <ul class="devops-list">
+          <li>Azure Policy</li>
+          <li>OPA / Rego</li>
+          <li>Policy-as-Code</li>
+          <li>Managed Identity</li>
+        </ul>
+      </div>
+    </div>
+    <div class="expanding-note"><b>Currently expanding —</b> AWS, GCP, Advanced Kubernetes, Cloud-native platform engineering.</div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section id="projects">
+    <span class="label">Selected Work</span>
+    <h2 style="margin-top:14px;">Engineering work</h2>
+    <p class="section-intro">From my GitHub — the policy-as-code project is my MSc thesis and main technical showcase.</p>
+
+    <div class="project featured">
+      <div class="project-top">
+        <div>
+          <div class="project-num">01</div>
+          <div class="project-title">Policy-as-Code Governance Architecture for Safe LLM-Assisted Security Remediation</div>
+        </div>
+        <a class="project-link" href="https://github.com/Lakshmi8134/policy-as-code-llm-governance" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+      <p class="project-desc">MSc thesis project. A governed architecture for using LLMs to assist with cloud security analysis and remediation recommendations, while keeping all infrastructure changes controlled through Policy-as-Code, CI/CD validation, and human approval workflows. GPT-5.1 generates Terraform HCL advisories; deterministic validation, risk classification, and human approval enforce every change.</p>
+      <div class="project-meta">
+        <div class="k">Built</div><div class="v">The full governance architecture — detection, LLM-assisted analysis, policy validation, and the human approval gate before any remediation is executed.</div>
+        <div class="k">Principle</div><div class="v">The LLM can assist with analysis and recommendations. It must not have direct, uncontrolled access to modify cloud infrastructure — every action passes through policy validation, governance controls, and approval.</div>
+      </div>
+      <div class="stack-line"><b>Stack —</b> Terraform · Azure Policy · Open Policy Agent (OPA) · Rego · Azure DevOps · CI/CD · Azure Functions · Microsoft Entra ID / Managed Identity · Azure Key Vault · Log Analytics · Application Insights</div>
+      <div class="flow-inline"><b>Detect</b> → <b>Analyse</b> → <b>Generate Recommendation</b> → <b>Validate</b> → <b>Human Approval</b> → <b>Controlled Remediation</b></div>
+    </div>
+
+    <div class="project small">
+      <div class="project-top">
+        <div>
+          <div class="project-num">02</div>
+          <div class="project-title">Task Management App</div>
+        </div>
+        <a class="project-link" href="https://github.com/Lakshmi8134/task-management-app" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+      <p class="project-desc">A multi-user collaborative task manager on Google App Engine — shared task boards with ownership-based permissions and member invitations.</p>
+      <div class="stack-line"><b>Stack —</b> FastAPI · Firestore · Firebase Authentication · Google App Engine</div>
+    </div>
+
+    <div class="project small">
+      <div class="project-top">
+        <div>
+          <div class="project-num">03</div>
+          <div class="project-title">Instagram Clone</div>
+        </div>
+        <a class="project-link" href="https://github.com/Lakshmi8134/instagram-clone" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+      <p class="project-desc">An Instagram-style photo-sharing app on Google App Engine — image posts, a follow graph, a merged timeline, prefix user search, and comments.</p>
+      <div class="stack-line"><b>Stack —</b> FastAPI · Firestore · Cloud Storage · Google App Engine</div>
+    </div>
+
+    <div class="project small">
+      <div class="project-top">
+        <div>
+          <div class="project-num">04</div>
+          <div class="project-title">F1 Driver &amp; Team Database</div>
+        </div>
+        <a class="project-link" href="https://github.com/Lakshmi8134/f1-firestore-app" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+      <p class="project-desc">A Formula 1 driver and team database on Google App Engine — wiki-style permissions and attribute filtering built within Firestore's NoSQL query constraints.</p>
+      <div class="stack-line"><b>Stack —</b> FastAPI · Firestore · Firebase Authentication · Google App Engine</div>
+    </div>
+  </section>
+</div>
+
+
+<section id="education" class="alt">
+  <div class="wrap">
+    <span class="label">Education</span>
+    <h2 style="margin-top:14px;">Education</h2>
+    <div class="role-strip">
+      <div>
+        <div class="role-title">MSc in Computing Science — First Class Honours</div>
+        <div class="role-sub">Griffith College — Dublin, Ireland</div>
+      </div>
+      <div class="role-date">Feb 2025 — Jun 2026</div>
+    </div>
+    <div class="role-strip" style="border-bottom:none; padding-bottom:0; margin-bottom:0;">
+      <div>
+        <div class="role-title">B.Tech in Computer Science &amp; Engineering</div>
+        <div class="role-sub">JNTU Anantapur — Andhra Pradesh, India</div>
+      </div>
+      <div class="role-date">2017 — 2021</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section id="certifications">
+    <span class="label">Certifications</span>
+    <h2 style="margin-top:14px;">Certifications</h2>
+    <div class="role-strip" style="border-bottom:none; padding-bottom:0; margin-bottom:0;">
+      <div>
+        <div class="role-title">Microsoft Certified: Azure Fundamentals (AZ-900)</div>
+        <div class="role-sub">Microsoft</div>
+      </div>
+      <div class="role-date">12 Oct 2022</div>
+    </div>
+  </section>
+</div>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <div class="contact-head">Let's talk.</div>
+        <div class="contact-sub">Open to DevOps, Cloud Engineering, Platform Engineering, and SRE opportunities in Dublin and Cork.</div>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:dareddy.mahalakshmi@gmail.com">dareddy.mahalakshmi@gmail.com</a>
+        <a href="https://www.linkedin.com/in/mahalakshmi-dareddy-8a3887190" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/Lakshmi8134" target="_blank" rel="noopener">GitHub</a>
+        <a href="#" title="Link to hosted resume PDF">Resume</a>
+      </div>
+    </div>
+    <div class="foot-bottom">Dublin, Ireland — eligible for Critical Skills Employment Permit (DevOps Engineer is a listed occupation).</div>
+  </div>
+</footer>
+
+</body>
+</html>
