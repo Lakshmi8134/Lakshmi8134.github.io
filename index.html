@@ -135,8 +135,16 @@
   .expanding-note{margin-top:24px; font-size:13.5px; color:var(--slate);}
   .expanding-note b{color:var(--accent); font-weight:600;}
 
+  /* compact closing-info section (education / certifications) */
+  .compact-section{padding:44px 0;}
+  .compact-cols{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  @media(max-width:640px){.compact-cols{grid-template-columns:1fr;}}
+  .role-strip.compact{padding:16px 0; margin-bottom:0;}
+  .role-title.compact{font-size:14.5px;}
+
   /* projects */
-  .project.featured{padding:36px; background:var(--accent-soft); border-radius:6px; margin-bottom:24px;}
+  .project.featured{padding:40px 42px; background:var(--accent-soft); border-radius:6px; margin-bottom:36px; border-left:3px solid var(--accent);}
+  .project.featured .project-num{background:var(--accent-2); color:#fff; padding:2px 9px; border-radius:3px; font-size:13px;}
   .project{padding-bottom:32px; margin-bottom:32px; border-bottom:1px solid var(--border);}
   .project:last-child{border-bottom:none; margin-bottom:0;}
   .project-top{display:flex; gap:20px; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; justify-content:space-between;}
@@ -153,6 +161,16 @@
   .flow-inline{margin-top:16px; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--navy); letter-spacing:0.02em; display:flex; gap:8px; flex-wrap:wrap;}
   .flow-inline b{color:var(--accent);}
   .project.small .project-title{font-size:17px;}
+  .other-projects{margin-top:8px; padding-top:28px; border-top:1px solid var(--border);}
+  .other-label{font-family:'IBM Plex Mono', monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--dim); margin-bottom:16px;}
+  .other-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .other-row a{
+    flex:1; min-width:180px; border:1px solid var(--border); border-radius:5px; padding:14px 16px;
+    display:flex; flex-direction:column; gap:4px; transition:border-color .15s;
+  }
+  .other-row a:hover{border-color:var(--accent-2);}
+  .other-title{font-family:'Manrope', sans-serif; font-weight:600; font-size:13.5px; color:var(--navy);}
+  .other-stack{font-size:11.5px; color:var(--dim);}
   .project.placeholder-project{border:1px dashed var(--border); border-radius:6px; padding:22px 24px; margin-bottom:16px; background:transparent;}
   .placeholder-title{color:var(--dim); font-weight:600; font-size:15px !important;}
 
@@ -245,13 +263,13 @@
     <span class="label">About</span>
     <div class="about-head" style="margin-top:14px;">DevOps and cloud engineering, built on a foundation of production reliability.</div>
     <div class="about-body">
-      <p>At Accenture, the majority of my work has been DevOps and Azure cloud engineering — building and maintaining CI/CD pipelines, provisioning infrastructure with Terraform, automating operational work, and owning cloud governance on an Azure-based platform.</p>
+      <p>At Accenture, the majority of my work has been DevOps and Azure cloud engineering — authoring and maintaining Azure DevOps CI/CD pipelines for build, release, and deployment, provisioning and configuring Azure infrastructure with Terraform, automating manual operational work, and owning cloud governance and cost controls on an Azure-based platform.</p>
       <p>That work is grounded in where I started: production reliability. On-call ownership, incident response, and root cause analysis across critical systems taught me how things actually break — which is exactly what makes the automation and infrastructure work effective rather than theoretical.</p>
       <p>I completed an MSc in Computing Science, hold the AZ-900 (Microsoft Azure Fundamentals) certification, and I'm currently building toward Kubernetes, AWS, and GCP.</p>
     </div>
     <div class="progression">
-      <div class="prog-item"><div class="prog-num">01</div><div class="prog-title">DevOps / CI-CD</div><div class="prog-desc">Azure pipelines, deployment workflows.</div></div>
-      <div class="prog-item"><div class="prog-num">02</div><div class="prog-title">Infrastructure / Automation</div><div class="prog-desc">Terraform, IaC, operational automation.</div></div>
+      <div class="prog-item"><div class="prog-num">01</div><div class="prog-title">DevOps / CI-CD</div><div class="prog-desc">Building &amp; running Azure DevOps pipelines, release workflows.</div></div>
+      <div class="prog-item"><div class="prog-num">02</div><div class="prog-title">Infrastructure / Automation</div><div class="prog-desc">Provisioning with Terraform, automating operations.</div></div>
       <div class="prog-item"><div class="prog-num">03</div><div class="prog-title">SRE / Production Reliability</div><div class="prog-desc">On-call, incidents, RCA, monitoring.</div></div>
       <div class="prog-item"><div class="prog-num">04</div><div class="prog-title">Cloud-Native Engineering</div><div class="prog-desc">Kubernetes, AWS, GCP — in progress.</div></div>
     </div>
@@ -390,88 +408,69 @@
         </div>
         <a class="project-link" href="https://github.com/Lakshmi8134/policy-as-code-llm-governance" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
-      <p class="project-desc">MSc thesis project. A governed architecture for using LLMs to assist with cloud security analysis and remediation recommendations, while keeping all infrastructure changes controlled through Policy-as-Code, CI/CD validation, and human approval workflows. GPT-5.1 generates Terraform HCL advisories; deterministic validation, risk classification, and human approval enforce every change.</p>
+      <p class="project-desc">A Policy-as-Code governance architecture for safe LLM-assisted cloud security remediation — using deterministic validation, risk classification, and human approval controls before any remediation is applied.</p>
       <div class="project-meta">
-        <div class="k">Built</div><div class="v">The full governance architecture — detection, LLM-assisted analysis, policy validation, and the human approval gate before any remediation is executed.</div>
-        <div class="k">Principle</div><div class="v">The LLM can assist with analysis and recommendations. It must not have direct, uncontrolled access to modify cloud infrastructure — every action passes through policy validation, governance controls, and approval.</div>
+        <div class="k">Built</div><div class="v">The governance architecture — detection, LLM-assisted analysis, policy validation, risk classification, and the human approval gate that sits before any remediation.</div>
+        <div class="k">Principle</div><div class="v">The LLM can assist with analysis and recommendations. It has no direct, uncontrolled access to modify cloud infrastructure — every action passes through policy validation, governance controls, and human approval.</div>
       </div>
       <div class="stack-line"><b>Stack —</b> Terraform · Azure Policy · Open Policy Agent (OPA) · Rego · Azure DevOps · CI/CD · Azure Functions · Microsoft Entra ID / Managed Identity · Azure Key Vault · Log Analytics · Application Insights</div>
       <div class="flow-inline"><b>Detect</b> → <b>Analyse</b> → <b>Generate Recommendation</b> → <b>Validate</b> → <b>Human Approval</b> → <b>Controlled Remediation</b></div>
     </div>
 
-    <div class="project small">
-      <div class="project-top">
-        <div>
-          <div class="project-num">02</div>
-          <div class="project-title">Task Management App</div>
-        </div>
-        <a class="project-link" href="https://github.com/Lakshmi8134/task-management-app" target="_blank" rel="noopener">GitHub ↗</a>
+    <div class="other-projects">
+      <div class="other-label">Other Projects</div>
+      <div class="other-row">
+        <a href="https://github.com/Lakshmi8134/task-management-app" target="_blank" rel="noopener">
+          <span class="other-title">Task Management App</span>
+          <span class="other-stack">FastAPI · Firestore · Google App Engine</span>
+        </a>
+        <a href="https://github.com/Lakshmi8134/instagram-clone" target="_blank" rel="noopener">
+          <span class="other-title">Instagram Clone</span>
+          <span class="other-stack">FastAPI · Firestore · Cloud Storage</span>
+        </a>
+        <a href="https://github.com/Lakshmi8134/f1-firestore-app" target="_blank" rel="noopener">
+          <span class="other-title">F1 Driver &amp; Team Database</span>
+          <span class="other-stack">FastAPI · Firestore</span>
+        </a>
       </div>
-      <p class="project-desc">A multi-user collaborative task manager on Google App Engine — shared task boards with ownership-based permissions and member invitations.</p>
-      <div class="stack-line"><b>Stack —</b> FastAPI · Firestore · Firebase Authentication · Google App Engine</div>
-    </div>
-
-    <div class="project small">
-      <div class="project-top">
-        <div>
-          <div class="project-num">03</div>
-          <div class="project-title">Instagram Clone</div>
-        </div>
-        <a class="project-link" href="https://github.com/Lakshmi8134/instagram-clone" target="_blank" rel="noopener">GitHub ↗</a>
-      </div>
-      <p class="project-desc">An Instagram-style photo-sharing app on Google App Engine — image posts, a follow graph, a merged timeline, prefix user search, and comments.</p>
-      <div class="stack-line"><b>Stack —</b> FastAPI · Firestore · Cloud Storage · Google App Engine</div>
-    </div>
-
-    <div class="project small">
-      <div class="project-top">
-        <div>
-          <div class="project-num">04</div>
-          <div class="project-title">F1 Driver &amp; Team Database</div>
-        </div>
-        <a class="project-link" href="https://github.com/Lakshmi8134/f1-firestore-app" target="_blank" rel="noopener">GitHub ↗</a>
-      </div>
-      <p class="project-desc">A Formula 1 driver and team database on Google App Engine — wiki-style permissions and attribute filtering built within Firestore's NoSQL query constraints.</p>
-      <div class="stack-line"><b>Stack —</b> FastAPI · Firestore · Firebase Authentication · Google App Engine</div>
     </div>
   </section>
 </div>
 
 
-<section id="education" class="alt">
+<section id="education" class="alt compact-section">
   <div class="wrap">
-    <span class="label">Education</span>
-    <h2 style="margin-top:14px;">Education</h2>
-    <div class="role-strip">
+    <div class="compact-cols">
       <div>
-        <div class="role-title">MSc in Computing Science — First Class Honours</div>
-        <div class="role-sub">Griffith College — Dublin, Ireland</div>
+        <span class="label">Education</span>
+        <div class="role-strip compact" style="margin-top:12px;">
+          <div>
+            <div class="role-title compact">MSc in Computing Science — First Class Honours</div>
+            <div class="role-sub">Griffith College — Dublin, Ireland</div>
+          </div>
+          <div class="role-date">Feb 2025 — Jun 2026</div>
+        </div>
+        <div class="role-strip compact" style="border-bottom:none; padding-bottom:0; margin-bottom:0;">
+          <div>
+            <div class="role-title compact">B.Tech in Computer Science &amp; Engineering</div>
+            <div class="role-sub">JNTU Anantapur — Andhra Pradesh, India</div>
+          </div>
+          <div class="role-date">2017 — 2021</div>
+        </div>
       </div>
-      <div class="role-date">Feb 2025 — Jun 2026</div>
-    </div>
-    <div class="role-strip" style="border-bottom:none; padding-bottom:0; margin-bottom:0;">
       <div>
-        <div class="role-title">B.Tech in Computer Science &amp; Engineering</div>
-        <div class="role-sub">JNTU Anantapur — Andhra Pradesh, India</div>
+        <span class="label">Certifications</span>
+        <div class="role-strip compact" style="border-bottom:none; padding-bottom:0; margin-bottom:0; margin-top:12px;">
+          <div>
+            <div class="role-title compact">Microsoft Certified: Azure Fundamentals (AZ-900)</div>
+            <div class="role-sub">Microsoft</div>
+          </div>
+          <div class="role-date">12 Oct 2022</div>
+        </div>
       </div>
-      <div class="role-date">2017 — 2021</div>
     </div>
   </div>
 </section>
-
-<div class="wrap">
-  <section id="certifications">
-    <span class="label">Certifications</span>
-    <h2 style="margin-top:14px;">Certifications</h2>
-    <div class="role-strip" style="border-bottom:none; padding-bottom:0; margin-bottom:0;">
-      <div>
-        <div class="role-title">Microsoft Certified: Azure Fundamentals (AZ-900)</div>
-        <div class="role-sub">Microsoft</div>
-      </div>
-      <div class="role-date">12 Oct 2022</div>
-    </div>
-  </section>
-</div>
 
 <footer id="contact">
   <div class="wrap">
